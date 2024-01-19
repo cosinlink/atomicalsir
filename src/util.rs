@@ -43,11 +43,14 @@ pub async fn query_fee() -> Result<u64> {
 		fastest_fee: u64,
 	}
 
-	Ok(reqwest::get("https://mempool.space/api/v1/fees/recommended")
+	let fee_recommend = reqwest::get("https://mempool.space/api/v1/fees/recommended")
 		.await?
 		.json::<FastestFee>()
 		.await?
-		.fastest_fee)
+		.fastest_fee;
+	println!("----------feeRecommend: {}", fee_recommend);
+
+	Ok(fee_recommend)
 }
 
 pub fn kill_process(pid: u32) -> Result<()> {

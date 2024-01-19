@@ -437,8 +437,8 @@ impl Miner {
 			.add_leaf(0, reveal_script.clone())?
 			.finalize(&secp, wallet.funding.x_only_public_key)
 			.unwrap();
-		let fees = Self::fees_of(satsbyte + 20, reveal_script.as_bytes().len(), &additional_outputs);
-		println!("----------reveal satsbyte: {}", satsbyte + 30);
+		let fees = Self::fees_of(satsbyte, reveal_script.as_bytes().len(), &additional_outputs);
+		println!("----------reveal satsbyte: {}", satsbyte);
 
 		let funding_utxo = self
 			.api
@@ -475,7 +475,7 @@ impl Miner {
 				9.
 			};
 
-			(satsbyte
+			((satsbyte + 11f64)
 				* (Self::BASE_BYTES
 						+ Self::REVEAL_INPUT_BYTES_BASE
 						+ (compact_input_bytes + reveal_script_len as f64) / 4.
