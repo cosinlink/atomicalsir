@@ -24,6 +24,7 @@ use bitcoin::{
 	TxIn, TxOut, Witness,
 };
 use serde::Serialize;
+use tracing::trace;
 // atomicalsir
 use crate::{
 	electrumx::{r#type::Utxo, Api, ElectrumX, ElectrumXBuilder},
@@ -212,6 +213,8 @@ impl Miner {
 
 		self.api.broadcast(encode::serialize_hex(&commit_tx)).await?;
 
+
+		tracing::info!("---commit_txid_ wait_until_utxo");
 		let commit_txid = commit_tx.txid();
 		let commit_txid_ = self
 			.api
@@ -440,6 +443,7 @@ impl Miner {
 		let fees = Self::fees_of(satsbyte, reveal_script.as_bytes().len(), &additional_outputs);
 		println!("----------reveal satsbyte: {}", satsbyte);
 
+		tracing::info!("---funding_utxo wait_until_utxo");
 		let funding_utxo = self
 			.api
 			.wait_until_utxo(wallet.funding.address.to_string(), fees.commit_and_reveal_and_outputs)
