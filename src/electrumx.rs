@@ -106,6 +106,7 @@ pub trait Api: Config + Http {
 			tracing::info!("{} waiting for UTXO...", cnt);
 			cnt = cnt + 1;
 			if cnt >= 6 {
+				tracing::info!("empty UTXO...exit");
 				std::process::exit(0);
 			}
 			time::sleep(Duration::from_secs(5)).await;
