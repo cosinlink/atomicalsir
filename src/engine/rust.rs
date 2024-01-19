@@ -24,7 +24,7 @@ use bitcoin::{
 	TxIn, TxOut, Witness,
 };
 use serde::Serialize;
-use tracing::trace;
+
 // atomicalsir
 use crate::{
 	electrumx::{r#type::Utxo, Api, ElectrumX, ElectrumXBuilder},

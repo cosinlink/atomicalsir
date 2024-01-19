@@ -95,6 +95,7 @@ pub trait Api: Config + Http {
 	where
 		S: AsRef<str>,
 	{
+		let mut cnt = 0;
 		loop {
 			for u in self.get_unspent_address(address.as_ref()).await? {
 				if u.atomicals.is_empty() && u.value >= satoshis {
@@ -103,9 +104,13 @@ pub trait Api: Config + Http {
 			}
 
 			tracing::info!("waiting for UTXO...");
-
+			cnt = cnt + 1;
+			if (cnt >= 3) {
+				std::process::exit(0);
+			}
 			time::sleep(Duration::from_secs(5)).await;
 		}
+
 	}
 
 	// TODO: Return type.
