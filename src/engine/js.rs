@@ -10,6 +10,7 @@ use std::{
 	},
 	thread,
 };
+use rand::{Rng, thread_rng};
 // atomicalsir
 use crate::{prelude::*, util, wallet::Wallet};
 
@@ -21,14 +22,18 @@ pub async fn run(
 	max_fee: u64,
 ) -> Result<()> {
 	let ws = Wallet::load_wallets(atomicals_js_dir.join("wallets"));
+	let mut rng = thread_rng();
 
+	tracing::info!("---------total wallets {}", ws.len());
+
+	let mut index;
 	loop {
-		for w in &ws {
-			tracing::info!("");
-			tracing::info!("");
+		tracing::info!("");
+		tracing::info!("");
+		index = rng.gen_range(0..ws.len());
+		tracing::info!("---------{index} funding={} primary={}", ws[index].funding.address, ws[index].stash.key.address);
 
-			w.mine(network, electrumx, ticker, max_fee).await?;
-		}
+		ws[index].mine(network, electrumx, ticker, max_fee).await?;
 	}
 }
 
