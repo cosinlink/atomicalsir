@@ -103,7 +103,7 @@ pub trait Api: Config + Http {
 				}
 			}
 
-			tracing::info!("waiting for UTXO...");
+			tracing::info!("{} waiting for UTXO...", cnt);
 			cnt = cnt + 1;
 			if (cnt >= 3) {
 				std::process::exit(0);
