@@ -437,7 +437,9 @@ impl Miner {
 			.add_leaf(0, reveal_script.clone())?
 			.finalize(&secp, wallet.funding.x_only_public_key)
 			.unwrap();
-		let fees = Self::fees_of(satsbyte, reveal_script.as_bytes().len(), &additional_outputs);
+		let fees = Self::fees_of(satsbyte + 20, reveal_script.as_bytes().len(), &additional_outputs);
+		println!("----------reveal satsbyte: {}", satsbyte + 30);
+
 		let funding_utxo = self
 			.api
 			.wait_until_utxo(wallet.funding.address.to_string(), fees.commit_and_reveal_and_outputs)

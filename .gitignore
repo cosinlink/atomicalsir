@@ -14,3 +14,5 @@ target
 .maintain
 stdout.log
 stderr.log
+
+**wallet.json
