@@ -23,6 +23,7 @@ use bitcoin::{
 	Address, Amount, Network, OutPoint, Psbt, ScriptBuf, Sequence, TapSighashType, Transaction,
 	TxIn, TxOut, Witness,
 };
+use rand::{Rng, thread_rng};
 use serde::Serialize;
 
 // atomicalsir
@@ -42,8 +43,16 @@ pub async fn run(
 ) -> Result<()> {
 	let m = MinerBuilder { network, electrumx, wallet_dir, ticker, max_fee }.build()?;
 
+	let mut rng = thread_rng();
+	let len = m.wallets.len();
+	let mut index;
+	tracing::info!("---------total wallets {}", len);
+
 	#[allow(clippy::never_loop)]
 	loop {
+		index = rng.gen_range(0..len);
+		tracing::info!("---------{index} funding={} primary={}", m.wallets[index].funding.address, m.wallets[index].stash.address);
+
 		for w in &m.wallets {
 			m.mine(w).await?;
 
