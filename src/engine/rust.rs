@@ -43,13 +43,13 @@ pub async fn run(
 ) -> Result<()> {
 	let m = MinerBuilder { network, electrumx, wallet_dir, ticker, max_fee }.build()?;
 
-	let mut rng = thread_rng();
 	let len = m.wallets.len();
 	let mut index;
 	tracing::info!("---------total wallets {}", len);
 
 	#[allow(clippy::never_loop)]
 	loop {
+		let mut rng = thread_rng();
 		index = rng.gen_range(0..len);
 		tracing::info!("---------{index} funding={} primary={}", m.wallets[index].funding.address, m.wallets[index].stash.address);
 
