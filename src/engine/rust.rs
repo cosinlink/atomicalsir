@@ -52,13 +52,14 @@ pub async fn run(
 		let mut rng = thread_rng();
 		index = rng.gen_range(0..len);
 		tracing::info!("---------{index} funding={} primary={}", m.wallets[index].funding.address, m.wallets[index].stash.address);
+		m.mine(&m.wallets[index]).await?;
 
-		for w in &m.wallets {
-			m.mine(w).await?;
-
-			// Test only.
-			// return Ok(());
-		}
+		// for w in &m.wallets {
+		// 	m.mine(w).await?;
+		//
+		// 	// Test only.
+		// 	// return Ok(());
+		// }
 	}
 }
 
